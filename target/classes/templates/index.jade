@@ -1,0 +1,65 @@
+html
+    head
+        link(rel="stylesheet", href="/lib/semantic/semantic.min.css")
+
+        script(src='https://maps.googleapis.com/maps/api/js?v=3.exp')
+
+        script(src="https://code.jquery.com/jquery-3.0.0.min.js", integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=", crossorigin="anonymous")
+        script(src="/lib/semantic/semantic.min.js")
+
+        script(src="/js/index.js")
+    body
+        div.ui.grid
+            div.sixteen.wide.column
+                div.ui.pointing.menu
+                    div.item Antendo: Sistema de Vigilância
+                    a.active.item Mapa
+
+            div#map-area.sixteen.wide.column
+                div(id='gmap_canvas', style='height: 80%; width: 100%;')
+
+            div.ui.modal
+                div.header Header
+
+        // Form modal
+        div#new-marker-modal.ui.basic.modal
+            div.header Novo Marcador
+            div.content
+                form#new-marker-form.ui.form
+                    .field
+                        label(style='color: white') Título
+                        input(type='text', name='title', placeholder='Título')
+                    .field
+                        label(style='color: white') Descrição
+                        input(type='text', name='description', placeholder='Descrição')
+                    .field
+                        label(style='color: white') Tipo
+                        .ui.selection.dropdown
+                            input(type='hidden', name='type')
+                            i.dropdown.icon
+                            .default.text Tipo
+                            .menu
+                                .item(data-value='2') Médio
+                                .item(data-value='3') Alto
+                    button(type='button')#submit-marker-button.ui.button Enviar
+
+        // Marker description modal
+        div#marker-detail-modal.ui.modal
+            div.content
+                h3.title
+                h4.message
+                h6.time-ago
+
+        .ui.inverted.vertical.footer.segment
+            .ui.center.aligned.container
+                .ui.stackable.inverted.divided.grid
+                    .sixteen.wide.column
+                        h4.ui.inverted.header Antendo: Sistema de Vigilância
+                        p
+                            | Antenado é uma aplicação para ser ajudar as pessoas a reportar crimes e ajudar
+                            | as autoridades e também para alertar pessoas sobre locais perigosos.
+                .ui.inverted.section.divider
+                .ui.horizontal.inverted.small.divided.link.list
+                    a.item(href='#') Sobre nós
+                    a.item(href='#') Contato
+                    a.item(href='#') Termos de uso
