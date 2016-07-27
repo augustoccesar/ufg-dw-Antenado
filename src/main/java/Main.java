@@ -1,5 +1,6 @@
 import controller.MainController;
 import controller.MarkerController;
+import controller.UserController;
 
 import static spark.Spark.before;
 import static spark.Spark.staticFiles;
@@ -15,5 +16,6 @@ public class Main {
 
         new MainController("/");
         new MarkerController("/markers");
+        new UserController("/users");
     }
 }

@@ -7,4 +7,5 @@ import model.User;
  */
 public interface UserDAO {
     User login(String username, String passwordMD5);
+    User save(User user);
 }

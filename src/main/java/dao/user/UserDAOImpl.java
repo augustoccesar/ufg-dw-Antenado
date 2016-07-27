@@ -5,10 +5,7 @@ import mapper.UserMapper;
 import model.User;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * Created by augustoccesar on 7/27/16.
@@ -46,5 +43,30 @@ public class UserDAOImpl implements UserDAO {
             e.printStackTrace();
         }
         return user;
+    }
+
+    @Override
+    public User save(User user) {
+        String sql = "INSERT INTO users (first_name, last_name, username, email, password, gender) VALUES (?,?,?,?,?,?)";
+        try(Connection con = this.dataSource.getConnection()){
+            try(PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+                stmt.setString(1, user.getFirstName());
+                stmt.setString(2, user.getLastName());
+                stmt.setString(3, user.getUsername());
+                stmt.setString(4, user.getEmail());
+                stmt.setString(5, user.getPassword());
+                stmt.setString(6, user.getGender());
+                System.out.println("EXECUTING SQL: " + sql.replaceAll(" +", " "));
+                if(stmt.executeUpdate() > 0){
+                    ResultSet rs = stmt.getGeneratedKeys();
+                    rs.next();
+                    user.setId(rs.getLong(1));
+                    return user;
+                }
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }
