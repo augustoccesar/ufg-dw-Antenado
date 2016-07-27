@@ -8,9 +8,9 @@ import java.util.List;
  * Created by augustoccesar on 7/4/16.
  */
 public interface MarkerDAO {
-    // Read
     List<Marker> all();
+    boolean userOwnMarker(Long markerId, Long userId);
 
-    // Write
     Marker save(Marker marker);
+    boolean delete(Long markerId, Long userId);
 }

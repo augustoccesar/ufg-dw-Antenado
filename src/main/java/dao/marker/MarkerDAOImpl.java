@@ -82,4 +82,38 @@ public class MarkerDAOImpl implements MarkerDAO {
         }
         return null;
     }
+
+    @Override
+    public boolean delete(Long markerId, Long userId) {
+        if(userOwnMarker(markerId, userId)){
+            String sql = "DELETE FROM markers WHERE id = ?";
+            try(Connection con = this.dataSource.getConnection()){
+                try(PreparedStatement stmt = con.prepareStatement(sql)){
+                    stmt.setLong(1, markerId);
+                    return stmt.executeUpdate() > 0;
+                }
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean userOwnMarker(Long markerId, Long userId) {
+        String sql = "SELECT id FROM markers WHERE id = ? AND user_id = ?";
+        try(Connection con = this.dataSource.getConnection()){
+            try(PreparedStatement stmt = con.prepareStatement(sql)){
+                stmt.setLong(1, markerId);
+                stmt.setLong(2, userId);
+                ResultSet rs = stmt.executeQuery();
+                if(rs.next())
+                    return rs.getLong("id") > 0;
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return false;
+    }
 }
